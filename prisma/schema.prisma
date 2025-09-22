@@ -46,6 +46,8 @@ model User {
   accounts      Account[]
   fashionScores FashionScore[]
   sessions      Session[]
+  responses     Response[]
+  surveyResults SurveyResult[]
 }
 
 model VerificationToken {
@@ -79,13 +81,14 @@ model Pillar {
 }
 
 model Question {
-  id        String   @id @default(cuid())
+  id        String     @id @default(cuid())
   text      String
   maxPoints Int
-  createdAt DateTime @default(now())
+  createdAt DateTime   @default(now())
   pillarId  String
   options   Option[]
-  pillar    Pillar   @relation(fields: [pillarId], references: [id], onDelete: Cascade)
+  responses Response[]
+  pillar    Pillar     @relation(fields: [pillarId], references: [id], onDelete: Cascade)
 
   @@unique([pillarId, text])
 }
@@ -98,6 +101,32 @@ model Option {
   question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
 
   @@unique([questionId, label])
+}
+
+model Response {
+  id         String   @id @default(cuid())
+  score      Float
+  createdAt  DateTime @default(now())
+  userId     String
+  questionId String
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  question Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([questionId])
+}
+
+model SurveyResult {
+  id         String   @id @default(cuid())
+  totalScore Float
+  breakdown  Json
+  createdAt  DateTime @default(now())
+  userId     String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 enum UserRole {
