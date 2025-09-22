@@ -4,14 +4,20 @@ import type { NextRequest } from 'next/server'
 
 const ADMIN_ROLE = 'ADMIN'
 const USER_ROLE = 'USER'
+const ADMIN_API_PREFIXES = ['/api/pillars', '/api/questions', '/api/options', '/api/results']
 
 export default withAuth(
   function middleware(req: NextRequest) {
     const token = req.nextauth.token
     const { pathname } = req.nextUrl
     const role = typeof token?.role === 'string' ? token.role.toUpperCase() : undefined
+    const isApiRoute = pathname.startsWith('/api/')
+    const isAdminApi = ADMIN_API_PREFIXES.some((prefix) => pathname.startsWith(prefix))
 
     if (!token) {
+      if (isApiRoute) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      }
       return NextResponse.redirect(new URL('/auth/signin', req.url))
     }
 
@@ -21,6 +27,10 @@ export default withAuth(
 
     if (pathname.startsWith('/survey') && role !== USER_ROLE) {
       return NextResponse.redirect(new URL('/unauthorized', req.url))
+    }
+
+    if (isAdminApi && role !== ADMIN_ROLE) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
     }
 
     return NextResponse.next()
@@ -33,5 +43,12 @@ export default withAuth(
 )
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/survey/:path*'],
+  matcher: [
+    '/dashboard/:path*',
+    '/survey/:path*',
+    '/api/pillars/:path*',
+    '/api/questions/:path*',
+    '/api/options/:path*',
+    '/api/results/:path*',
+  ],
 }

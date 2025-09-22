@@ -73,15 +73,15 @@ The seed script creates two credential-based users:
 
 ## Available Scripts
 
-- `npm run dev` – Start Next.js in development mode
-- `npm run build` – Production build
-- `npm run start` – Serve the production build
-- `npm run lint` – Run ESLint
-- `npm run db:migrate` – Run Prisma migrations in dev mode
-- `npm run db:generate` – Regenerate Prisma client
-- `npm run db:push` – Push schema to the database (useful for prototypes)
-- `npm run db:studio` – Launch Prisma Studio
-- `npm run db:seed` – Run the TypeScript seed script
+- `npm run dev` ï¿½ Start Next.js in development mode
+- `npm run build` ï¿½ Production build
+- `npm run start` ï¿½ Serve the production build
+- `npm run lint` ï¿½ Run ESLint
+- `npm run db:migrate` ï¿½ Run Prisma migrations in dev mode
+- `npm run db:generate` ï¿½ Regenerate Prisma client
+- `npm run db:push` ï¿½ Push schema to the database (useful for prototypes)
+- `npm run db:studio` ï¿½ Launch Prisma Studio
+- `npm run db:seed` ï¿½ Run the TypeScript seed script
 
 ## Project Structure
 
@@ -103,6 +103,33 @@ prisma/
   schema.prisma         # Data model
   seed.ts               # XML-driven and user seed logic
 ```
+
+
+## Protected API Endpoints
+
+All endpoints below require an authenticated session with the `ADMIN` role. Requests without the appropriate role receive `401/403` responses from the middleware layer.
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET    | /api/pillars | List pillars (with questions) |
+| POST   | /api/pillars | Create pillar |
+| GET    | /api/pillars/:id | Retrieve pillar detail |
+| PUT    | /api/pillars/:id | Update pillar |
+| DELETE | /api/pillars/:id | Delete pillar |
+| GET    | /api/questions | List questions (filter by pillar) |
+| POST   | /api/questions | Create question |
+| GET    | /api/questions/:id | Retrieve question detail |
+| PUT    | /api/questions/:id | Update question |
+| DELETE | /api/questions/:id | Delete question |
+| GET    | /api/options | List options (filter by question) |
+| POST   | /api/options | Create option |
+| GET    | /api/options/:id | Retrieve option detail |
+| PUT    | /api/options/:id | Update option |
+| DELETE | /api/options/:id | Delete option |
+| GET    | /api/results | List survey results |
+| GET    | /api/results/:id | Retrieve result detail |
+
+The middleware (`middleware.ts`) enforces the role checks for these routes, while `/survey` remains restricted to `USER` accounts.
 
 ## Authentication & Roles
 
