@@ -1,8 +1,8 @@
 'use client'
 
+import { useEffect } from 'react'
 import { useSession, signOut } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
 
 export default function Dashboard() {
   const { data: session, status } = useSession()
@@ -10,11 +10,16 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (status === 'unauthenticated') {
-      router.push('/auth/signin')
+      router.replace('/auth/signin')
+      return
     }
-  }, [status, router])
 
-  if (status === 'loading') {
+    if (status === 'authenticated' && session?.user.role !== 'ADMIN') {
+      router.replace('/unauthorized')
+    }
+  }, [status, session, router])
+
+  if (status === 'loading' || status === 'unauthenticated') {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-lg">Loading...</div>
@@ -22,7 +27,7 @@ export default function Dashboard() {
     )
   }
 
-  if (!session) {
+  if (!session || session.user.role !== 'ADMIN') {
     return null
   }
 
@@ -32,7 +37,7 @@ export default function Dashboard() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex items-center">
-              <h1 className="text-xl font-semibold">Green Fashion Score Dashboard</h1>
+              <h1 className="text-xl font-semibold">Admin Management Panel</h1>
             </div>
             <div className="flex items-center space-x-4">
               <span className="text-gray-700">
@@ -42,10 +47,10 @@ export default function Dashboard() {
                 {session.user?.role}
               </span>
               <button
-                onClick={() => signOut()}
+                onClick={() => signOut({ callbackUrl: '/' })}
                 className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md text-sm font-medium"
               >
-                Sign Out
+                Sign out
               </button>
             </div>
           </div>
@@ -54,38 +59,36 @@ export default function Dashboard() {
 
       <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
-          <div className="border-4 border-dashed border-gray-200 rounded-lg h-96 p-8">
+          <div className="border-4 border-dashed border-gray-200 rounded-lg p-8">
             <div className="text-center">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                Dashboard Content
-              </h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">Admin overview</h2>
               <p className="text-gray-600 mb-6">
-                This is your protected dashboard. You are signed in as a {session.user?.role}.
+                Manage the sustainability survey, review results, and oversee user access from this panel.
               </p>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
                 <div className="bg-white p-6 rounded-lg shadow">
-                  <h3 className="text-lg font-semibold mb-2">User Info</h3>
+                  <h3 className="text-lg font-semibold mb-2">User information</h3>
                   <p className="text-sm text-gray-600">Email: {session.user?.email}</p>
                   <p className="text-sm text-gray-600">Role: {session.user?.role}</p>
                 </div>
-                
+
                 <div className="bg-white p-6 rounded-lg shadow">
-                  <h3 className="text-lg font-semibold mb-2">Quick Actions</h3>
+                  <h3 className="text-lg font-semibold mb-2">Quick actions</h3>
                   <div className="space-y-2">
                     <button className="w-full bg-blue-500 text-white px-4 py-2 rounded text-sm">
-                      View Charts
+                      View survey results
                     </button>
                     <button className="w-full bg-green-500 text-white px-4 py-2 rounded text-sm">
-                      Add Score
+                      Manage survey content
                     </button>
                   </div>
                 </div>
-                
+
                 <div className="bg-white p-6 rounded-lg shadow">
-                  <h3 className="text-lg font-semibold mb-2">Statistics</h3>
+                  <h3 className="text-lg font-semibold mb-2">Overall status</h3>
                   <p className="text-2xl font-bold text-blue-600">0</p>
-                  <p className="text-sm text-gray-600">Total Scores</p>
+                  <p className="text-sm text-gray-600">Completed surveys</p>
                 </div>
               </div>
             </div>

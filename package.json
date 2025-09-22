@@ -12,7 +12,7 @@
     "db:push": "prisma db push",
     "db:migrate": "prisma migrate dev",
     "db:studio": "prisma studio",
-    "db:seed": "node prisma/seed.js"
+    "db:seed": "prisma db seed"
   },
   "keywords": [],
   "author": "",
@@ -36,10 +36,16 @@
     "react-chartjs-2": "^5.3.0",
     "react-dom": "^19.1.1",
     "tailwindcss": "^4.1.13",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.2",
+    "xml2js": "^0.6.2"
   },
   "devDependencies": {
+    "@types/xml2js": "^0.4.11",
     "eslint": "^9.35.0",
-    "eslint-config-next": "^15.5.3"
+    "eslint-config-next": "^15.5.3",
+    "ts-node": "^10.9.2"
+  },
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   }
 }

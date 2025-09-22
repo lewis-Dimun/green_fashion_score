@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import bcrypt from 'bcryptjs'
+import { UserRole } from '@prisma/client'
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { name, email, password } = body
+    const { name, email, password, role } = body
 
     if (!name || !email || !password) {
       return NextResponse.json(
@@ -14,11 +15,8 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Check if user already exists
     const existingUser = await prisma.user.findUnique({
-      where: {
-        email: email
-      }
+      where: { email }
     })
 
     if (existingUser) {
@@ -28,35 +26,31 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Hash password
     const hashedPassword = await bcrypt.hash(password, 12)
+    const assignedRole = typeof role === 'string' && role.toUpperCase() === 'ADMIN'
+      ? UserRole.ADMIN
+      : UserRole.USER
 
-    // Create user
     const user = await prisma.user.create({
       data: {
         name,
         email,
-        // Note: In a real app, you'd store the hashed password
-        // For this demo, we're not storing passwords in the User model
-        // since we're using NextAuth.js with credentials provider
-        role: 'USER'
+        password: hashedPassword,
+        role: assignedRole,
       },
       select: {
         id: true,
         name: true,
         email: true,
         role: true,
-        createdAt: true
+        createdAt: true,
       }
     })
 
-    return NextResponse.json(
-      { 
-        message: 'User created successfully',
-        user 
-      },
-      { status: 201 }
-    )
+    return NextResponse.json({
+      message: 'User created successfully',
+      user,
+    }, { status: 201 })
   } catch (error) {
     console.error('Registration error:', error)
     return NextResponse.json(

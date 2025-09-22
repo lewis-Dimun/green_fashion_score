@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,22 +7,20 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// NextAuth.js required models
 model Account {
   id                String  @id @default(cuid())
   userId            String
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?
   session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -42,18 +34,18 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String         @id @default(cuid())
   name          String?
-  email         String    @unique
+  email         String         @unique
   emailVerified DateTime?
   image         String?
-  role          UserRole  @default(USER)
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-
-  accounts     Account[]
-  sessions     Session[]
+  role          UserRole       @default(USER)
+  password      String
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  accounts      Account[]
   fashionScores FashionScore[]
+  sessions      Session[]
 }
 
 model VerificationToken {
@@ -64,7 +56,6 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-// Custom models for the application
 model FashionScore {
   id          String   @id @default(cuid())
   brand       String
@@ -75,6 +66,38 @@ model FashionScore {
   updatedAt   DateTime @updatedAt
   userId      String?
   user        User?    @relation(fields: [userId], references: [id])
+}
+
+model Pillar {
+  id          String     @id @default(cuid())
+  name        String     @unique
+  description String?
+  maxPoints   Int
+  weight      Float
+  createdAt   DateTime   @default(now())
+  questions   Question[]
+}
+
+model Question {
+  id        String   @id @default(cuid())
+  text      String
+  maxPoints Int
+  createdAt DateTime @default(now())
+  pillarId  String
+  options   Option[]
+  pillar    Pillar   @relation(fields: [pillarId], references: [id], onDelete: Cascade)
+
+  @@unique([pillarId, text])
+}
+
+model Option {
+  id         String   @id @default(cuid())
+  label      String
+  points     Int
+  questionId String
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@unique([questionId, label])
 }
 
 enum UserRole {
