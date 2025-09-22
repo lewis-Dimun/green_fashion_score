@@ -1,0 +1,45 @@
+{
+  "name": "green-fashion-score",
+  "version": "1.0.0",
+  "description": "Green Fashion Score - A Next.js application with authentication and data visualization",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:migrate": "prisma migrate dev",
+    "db:studio": "prisma studio",
+    "db:seed": "node prisma/seed.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@auth/prisma-adapter": "^2.10.0",
+    "@prisma/client": "^6.16.2",
+    "@tailwindcss/postcss": "^4.1.13",
+    "@types/bcryptjs": "^3.0.0",
+    "@types/node": "^24.5.2",
+    "@types/react": "^19.1.13",
+    "@types/react-dom": "^19.1.9",
+    "autoprefixer": "^10.4.21",
+    "bcryptjs": "^3.0.2",
+    "chart.js": "^4.5.0",
+    "next": "^15.5.3",
+    "next-auth": "^4.24.11",
+    "postcss": "^8.5.6",
+    "prisma": "^6.16.2",
+    "react": "^19.1.1",
+    "react-chartjs-2": "^5.3.0",
+    "react-dom": "^19.1.1",
+    "tailwindcss": "^4.1.13",
+    "typescript": "^5.9.2"
+  },
+  "devDependencies": {
+    "eslint": "^9.35.0",
+    "eslint-config-next": "^15.5.3"
+  }
+}
