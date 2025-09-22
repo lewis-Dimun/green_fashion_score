@@ -2,6 +2,33 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import {
+  Chart as ChartJS,
+  RadialLinearScale,
+  PointElement,
+  LineElement,
+  Filler,
+  Tooltip,
+  Legend,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  ArcElement,
+} from 'chart.js'
+import { Radar, Bar, Pie, Doughnut } from 'react-chartjs-2'
+
+ChartJS.register(
+  RadialLinearScale,
+  PointElement,
+  LineElement,
+  Filler,
+  Tooltip,
+  Legend,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  ArcElement,
+)
 
 type OptionDto = {
   id: string
@@ -30,6 +57,20 @@ type SurveyFetchResponse = {
   userId?: string
 }
 
+type ScoringBreakdown = {
+  pillarId: string
+  pillarName: string
+  obtained: number
+  maxPoints: number
+  weight: number
+  weightedScore: number
+}
+
+type ScoringResponse = {
+  totalScore: number
+  breakdown: ScoringBreakdown[]
+}
+
 export default function SurveyClient() {
   const router = useRouter()
   const [data, setData] = useState<PillarDto[] | null>(null)
@@ -37,6 +78,7 @@ export default function SurveyClient() {
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [result, setResult] = useState<ScoringResponse | null>(null)
 
   useEffect(() => {
     let cancelled = false
@@ -119,7 +161,8 @@ export default function SurveyClient() {
         throw new Error(body.error ?? 'Failed to submit survey')
       }
 
-      router.replace('/dashboard')
+      const scoring = (await res.json()) as ScoringResponse
+      setResult(scoring)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to submit survey')
     } finally {
@@ -127,10 +170,105 @@ export default function SurveyClient() {
     }
   }
 
+  const totalScorePercent = useMemo(() => {
+    if (!result) return 0
+    return Math.max(0, Math.min(100, Number((result.totalScore * 100).toFixed(2))))
+  }, [result])
+
+  const radarData = useMemo(() => {
+    if (!result) return null
+    const labels = result.breakdown.map((b) => b.pillarName)
+    return {
+      labels,
+      datasets: [
+        {
+          label: 'Obtained',
+          data: result.breakdown.map((b) => b.obtained),
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          pointBackgroundColor: 'rgba(75, 192, 192, 1)',
+        },
+        {
+          label: 'Max points',
+          data: result.breakdown.map((b) => b.maxPoints),
+          backgroundColor: 'rgba(54, 162, 235, 0.1)',
+          borderColor: 'rgba(54, 162, 235, 0.6)',
+          pointBackgroundColor: 'rgba(54, 162, 235, 0.6)',
+        },
+      ],
+    }
+  }, [result])
+
+  const barData = useMemo(() => {
+    if (!result) return null
+    const labels = result.breakdown.map((b) => b.pillarName)
+    return {
+      labels,
+      datasets: [
+        {
+          label: 'Obtained',
+          data: result.breakdown.map((b) => b.obtained),
+          backgroundColor: 'rgba(34, 197, 94, 0.8)',
+        },
+        {
+          label: 'Max points',
+          data: result.breakdown.map((b) => b.maxPoints),
+          backgroundColor: 'rgba(148, 163, 184, 0.8)',
+        },
+      ],
+    }
+  }, [result])
+
+  const pieData = useMemo(() => {
+    if (!result) return null
+    const labels = result.breakdown.map((b) => b.pillarName)
+    const weights = result.breakdown.map((b) => b.weight)
+    return {
+      labels,
+      datasets: [
+        {
+          data: weights,
+          backgroundColor: [
+            'rgba(59, 130, 246, 0.8)',
+            'rgba(34, 197, 94, 0.8)',
+            'rgba(234, 179, 8, 0.8)',
+            'rgba(99, 102, 241, 0.8)',
+            'rgba(248, 113, 113, 0.8)',
+          ],
+        },
+      ],
+    }
+  }, [result])
+
+  const gaugeData = useMemo(() => {
+    if (!result) return null
+    return {
+      labels: ['Score', 'Remaining'],
+      datasets: [
+        {
+          data: [totalScorePercent, 100 - totalScorePercent],
+          backgroundColor: ['rgba(79, 70, 229, 0.85)', 'rgba(226, 232, 240, 0.8)'],
+          borderWidth: 0,
+          circumference: 180,
+          rotation: -90,
+        },
+      ],
+    }
+  }, [result, totalScorePercent])
+
+  const gaugeOptions = useMemo(() => ({
+    responsive: true,
+    cutout: '70%',
+    plugins: {
+      legend: { display: false },
+      tooltip: { enabled: false },
+    },
+  }), [])
+
   if (loading) {
     return (
       <main className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <p className="text-gray-600">Loading survey�</p>
+        <p className="text-gray-600">Loading survey...</p>
       </main>
     )
   }
@@ -141,6 +279,96 @@ export default function SurveyClient() {
         <div className="max-w-md text-center">
           <h1 className="text-2xl font-semibold text-gray-900 mb-2">Unable to load survey</h1>
           <p className="text-gray-600">{error}</p>
+        </div>
+      </main>
+    )
+  }
+
+  if (result) {
+    return (
+      <main className="min-h-screen bg-gray-50 px-4 py-8">
+        <div className="max-w-5xl mx-auto space-y-8">
+          <header className="text-center">
+            <h1 className="text-3xl font-bold text-gray-900">Survey results</h1>
+            <p className="text-gray-600 mt-2">
+              Total score: <span className="font-semibold">{totalScorePercent.toFixed(2)}%</span>
+            </p>
+          </header>
+
+          <section className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+              <h2 className="text-lg font-semibold text-gray-900 mb-4">Performance by pillar</h2>
+              {radarData && (
+                <Radar
+                  data={radarData}
+                  options={{
+                    responsive: true,
+                    plugins: { legend: { position: 'top' as const } },
+                  }}
+                />
+              )}
+            </div>
+
+            <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+              <h2 className="text-lg font-semibold text-gray-900 mb-4">Points earned vs maximum</h2>
+              {barData && (
+                <Bar
+                  data={barData}
+                  options={{
+                    responsive: true,
+                    scales: {
+                      y: {
+                        beginAtZero: true,
+                      },
+                    },
+                  }}
+                />
+              )}
+            </div>
+
+            <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+              <h2 className="text-lg font-semibold text-gray-900 mb-4">Pillar weight distribution</h2>
+              {pieData && (
+                <Pie
+                  data={pieData}
+                  options={{
+                    responsive: true,
+                    plugins: {
+                      legend: { position: 'bottom' as const },
+                    },
+                  }}
+                />
+              )}
+            </div>
+
+            <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm flex flex-col items-center justify-center">
+              <h2 className="text-lg font-semibold text-gray-900 mb-4">Overall score</h2>
+              <div className="w-48 h-24">
+                {gaugeData && <Doughnut data={gaugeData} options={gaugeOptions} />}
+              </div>
+              <p className="mt-4 text-sm text-gray-600">{totalScorePercent.toFixed(2)}% out of 100%</p>
+            </div>
+          </section>
+
+          <div className="flex justify-center gap-4">
+            <button
+              type="button"
+              onClick={() => router.replace('/dashboard')}
+              className="inline-flex items-center justify-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700"
+            >
+              Go to dashboard
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setResult(null)
+                setSelected({})
+              }}
+              className="inline-flex items-center justify-center rounded-md border border-gray-300 px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-100"
+            >
+              Retake survey
+            </button>
+          </div>
         </div>
       </main>
     )
@@ -182,7 +410,7 @@ export default function SurveyClient() {
                     )}
                   </div>
                   <div className="text-sm text-gray-500">
-                    Max points: {pillar.maxPoints} � Weight: {pillar.weight}
+                    Max points: {pillar.maxPoints} - Weight: {pillar.weight}
                   </div>
                 </div>
               </header>
@@ -191,7 +419,7 @@ export default function SurveyClient() {
                 {pillar.questions.map((question) => (
                   <div key={question.id} className="px-6 py-4 space-y-3">
                     <div className="flex items-start justify-between gap-4">
-                      <h3 className="text-lg font-medium text-gray-900">{question.text}</h3>
+                      <h3 className="text-lg font-medium text-gray-900">{question.text}</hDescription>
                       <span className="text-sm text-gray-500">Max points: {question.maxPoints}</span>
                     </div>
 
@@ -226,7 +454,7 @@ export default function SurveyClient() {
               disabled={submitting || unansweredCount > 0}
               className="inline-flex items-center justify-center rounded-md bg-indigo-600 px-6 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 disabled:cursor-not-allowed disabled:bg-indigo-300"
             >
-              {submitting ? 'Submitting�' : 'Submit survey'}
+              {submitting ? 'Submitting...' : 'Submit survey'}
             </button>
           </div>
         </form>
@@ -234,4 +462,3 @@ export default function SurveyClient() {
     </main>
   )
 }
-
