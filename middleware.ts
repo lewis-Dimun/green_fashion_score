@@ -5,6 +5,7 @@ import type { NextRequest } from 'next/server'
 const ADMIN_ROLE = 'ADMIN'
 const USER_ROLE = 'USER'
 const ADMIN_API_PREFIXES = ['/api/pillars', '/api/questions', '/api/options', '/api/results']
+const USER_API_PREFIXES = ['/api/survey']
 
 export default withAuth(
   function middleware(req: NextRequest) {
@@ -13,6 +14,7 @@ export default withAuth(
     const role = typeof token?.role === 'string' ? token.role.toUpperCase() : undefined
     const isApiRoute = pathname.startsWith('/api/')
     const isAdminApi = ADMIN_API_PREFIXES.some((prefix) => pathname.startsWith(prefix))
+    const isUserApi = USER_API_PREFIXES.some((prefix) => pathname.startsWith(prefix))
 
     if (!token) {
       if (isApiRoute) {
@@ -33,6 +35,10 @@ export default withAuth(
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
     }
 
+    if (isUserApi && role !== USER_ROLE) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+    }
+
     return NextResponse.next()
   },
   {
@@ -50,5 +56,6 @@ export const config = {
     '/api/questions/:path*',
     '/api/options/:path*',
     '/api/results/:path*',
+    '/api/survey/:path*',
   ],
 }

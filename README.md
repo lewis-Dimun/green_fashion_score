@@ -73,15 +73,16 @@ The seed script creates two credential-based users:
 
 ## Available Scripts
 
-- `npm run dev` � Start Next.js in development mode
-- `npm run build` � Production build
-- `npm run start` � Serve the production build
-- `npm run lint` � Run ESLint
-- `npm run db:migrate` � Run Prisma migrations in dev mode
-- `npm run db:generate` � Regenerate Prisma client
-- `npm run db:push` � Push schema to the database (useful for prototypes)
-- `npm run db:studio` � Launch Prisma Studio
-- `npm run db:seed` � Run the TypeScript seed script
+- `npm run dev` - Start Next.js in development mode
+- `npm run build` - Production build
+- `npm run start` - Serve the production build
+- `npm run lint` - Run ESLint
+- `npm run db:migrate` - Run Prisma migrations in dev mode
+- `npm run db:generate` - Regenerate Prisma client
+- `npm run db:push` - Push schema to the database (useful for prototypes)
+- `npm run db:studio` - Launch Prisma Studio
+- `npm run db:seed` - Run the TypeScript seed script
+- `npm test` - Run Jest integration/unit tests
 
 ## Project Structure
 
@@ -130,6 +131,16 @@ All endpoints below require an authenticated session with the `ADMIN` role. Requ
 | GET    | /api/results/:id | Retrieve result detail |
 
 The middleware (`middleware.ts`) enforces the role checks for these routes, while `/survey` remains restricted to `USER` accounts.
+
+
+## Survey Submission API
+
+Accessible to authenticated `USER` accounts.
+
+| Method | Endpoint     | Description                              |
+|--------|--------------|------------------------------------------|
+| GET    | /api/survey  | Fetch visible pillars, questions, options |
+| POST   | /api/survey  | Persist responses and execute scoring     |
 
 ## Authentication & Roles
 

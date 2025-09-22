@@ -71,8 +71,10 @@ export async function calculateUserScore(userId: string): Promise<ScoringResult>
 
   const totalScore = breakdown.reduce((sum, item) => sum + item.weightedScore, 0)
 
-  await prisma.surveyResult.create({
-    data: {
+  await prisma.surveyResult.upsert({
+    where: { userId },
+    update: { totalScore, breakdown },
+    create: {
       userId,
       totalScore,
       breakdown,

@@ -7,7 +7,7 @@ jest.mock('@/lib/prisma', () => ({
       findMany: jest.fn(),
     },
     surveyResult: {
-      create: jest.fn(),
+      upsert: jest.fn(),
     },
   },
 }))
@@ -22,16 +22,14 @@ describe('calculateUserScore', () => {
 
   it('returns zero score and persists empty breakdown when no responses', async () => {
     mockResponse.findMany.mockResolvedValue([] as any)
-    mockSurveyResult.create.mockResolvedValue({ id: 'r1', totalScore: 0 } as any)
+    mockSurveyResult.upsert.mockResolvedValue({ id: 'r1', totalScore: 0 } as any)
 
     const result = await calculateUserScore('user-1')
 
-    expect(mockSurveyResult.create).toHaveBeenCalledWith({
-      data: {
-        userId: 'user-1',
-        totalScore: 0,
-        breakdown: [],
-      },
+    expect(mockSurveyResult.upsert).toHaveBeenCalledWith({
+      where: { userId: 'user-1' },
+      update: { totalScore: 0, breakdown: [] },
+      create: { userId: 'user-1', totalScore: 0, breakdown: [] },
     })
     expect(result).toEqual({ totalScore: 0, breakdown: [] })
   })
@@ -62,7 +60,7 @@ describe('calculateUserScore', () => {
       },
     ] as any)
 
-    mockSurveyResult.create.mockResolvedValue({ id: 'res-1' } as any)
+    mockSurveyResult.upsert.mockResolvedValue({ id: 'res-1' } as any)
 
     const result = await calculateUserScore('user-2')
 
@@ -87,12 +85,10 @@ describe('calculateUserScore', () => {
 
     const totalScore = expectedBreakdown.reduce((sum, item) => sum + item.weightedScore, 0)
 
-    expect(mockSurveyResult.create).toHaveBeenCalledWith({
-      data: {
-        userId: 'user-2',
-        totalScore,
-        breakdown: expectedBreakdown,
-      },
+    expect(mockSurveyResult.upsert).toHaveBeenCalledWith({
+      where: { userId: 'user-2' },
+      update: { totalScore, breakdown: expectedBreakdown },
+      create: { userId: 'user-2', totalScore, breakdown: expectedBreakdown },
     })
 
     expect(result.totalScore).toBeCloseTo(totalScore)

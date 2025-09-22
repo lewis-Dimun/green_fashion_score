@@ -37,3 +37,7 @@ ALTER TABLE "public"."Response" ADD CONSTRAINT "Response_questionId_fkey" FOREIG
 
 -- AddForeignKey
 ALTER TABLE "public"."SurveyResult" ADD CONSTRAINT "SurveyResult_userId_fkey" FOREIGN KEY ("userId") REFERENCES "public"."User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- Ensure survey results are unique per user
+CREATE UNIQUE INDEX IF NOT EXISTS " SurveyResult_userId_key\ ON \public\.\SurveyResult\(\userId\);
+CREATE UNIQUE INDEX IF NOT EXISTS " Response_userId_questionId_key\ ON \public\.\Response\(\userId\, \questionId\);
