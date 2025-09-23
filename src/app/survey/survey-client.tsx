@@ -66,9 +66,20 @@ type ScoringBreakdown = {
   weightedScore: number
 }
 
+type QuestionResponse = {
+  questionId: string
+  questionText: string
+  pillarId: string
+  pillarName: string
+  optionId: string | null
+  optionLabel: string | null
+  points: number
+}
+
 type ScoringResponse = {
   totalScore: number
   breakdown: ScoringBreakdown[]
+  responses?: QuestionResponse[]
 }
 
 export default function SurveyClient() {
@@ -419,7 +430,7 @@ export default function SurveyClient() {
                 {pillar.questions.map((question) => (
                   <div key={question.id} className="px-6 py-4 space-y-3">
                     <div className="flex items-start justify-between gap-4">
-                      <h3 className="text-lg font-medium text-gray-900">{question.text}</hDescription>
+                      <h3 className="text-lg font-medium text-gray-900">{question.text}</h3>
                       <span className="text-sm text-gray-500">Max points: {question.maxPoints}</span>
                     </div>
 
@@ -462,3 +473,4 @@ export default function SurveyClient() {
     </main>
   )
 }
+

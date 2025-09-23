@@ -1,0 +1,59 @@
+<pillars>
+  <pillar>
+    <name>People</name>
+    <description>Social impact and labour practices.</description>
+    <maxPoints>44</maxPoints>
+    <weight>0.20</weight>
+    <questions>
+      <question>
+        <text>Responsible sourcing</text>
+        <maxPoints>4</maxPoints>
+        <options>
+          <option points="4">Verified external certification (Fair Trade, SA8000, etc)</option>
+          <option points="3">Certification in progress with third-party audits</option>
+          <option points="2">Internal audits without formal certification</option>
+          <option points="1">Basic supplier code of conduct</option>
+          <option points="0">No documented approach</option>
+        </options>
+      </question>
+      <question>
+        <text>Production geography</text>
+        <maxPoints>4</maxPoints>
+        <options>
+          <option points="4">Made locally or regionally with full traceability</option>
+          <option points="2">Mixed regions with partial traceability</option>
+          <option points="1">Global supply chain with limited oversight</option>
+          <option points="0">Unknown or high risk production regions</option>
+        </options>
+      </question>
+    </questions>
+  </pillar>
+  <pillar>
+    <name>Planet</name>
+    <description>Environmental stewardship and resource management.</description>
+    <maxPoints>56</maxPoints>
+    <weight>0.35</weight>
+    <questions>
+      <question>
+        <text>Materials footprint</text>
+        <maxPoints>6</maxPoints>
+        <options>
+          <option points="6">Majority certified recycled or organic inputs</option>
+          <option points="4">Blended materials with some sustainable content</option>
+          <option points="2">Limited transparency on material mix</option>
+          <option points="0">No environmental criteria applied</option>
+        </options>
+      </question>
+      <question>
+        <text>Emissions reduction</text>
+        <maxPoints>6</maxPoints>
+        <options>
+          <option points="6">Science-based targets with annual public reporting</option>
+          <option points="4">Reduction programme with internal tracking</option>
+          <option points="2">Emerging plans without clear metrics</option>
+          <option points="0">No emissions strategy in place</option>
+        </options>
+      </question>
+    </questions>
+  </pillar>
+</pillars>

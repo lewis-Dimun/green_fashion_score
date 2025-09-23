@@ -1,6 +1,8 @@
 import { PrismaClient, UserRole } from '@prisma/client'
 import bcrypt from 'bcryptjs'
 import { parseStringPromise } from 'xml2js'
+import { promises as fs } from 'node:fs'
+import path from 'node:path'
 
 type XmlOption = {
   _: string
@@ -32,40 +34,7 @@ type XmlRoot = {
 }
 
 const prisma = new PrismaClient()
-
-const INITIAL_DATA_XML = `
-<pillars>
-  <pillar>
-    <name>People</name>
-    <description>Impacto Social y Laboral. Centrado en bienestar social, laboral y de gobernanza.</description>
-    <maxPoints>44</maxPoints>
-    <weight>0.20</weight>
-    <questions>
-      <question>
-        <text>Responsabilidad Social</text>
-        <maxPoints>4</maxPoints>
-        <options>
-          <option points="4">Certificación ética externa (Fair Trade, SA8000, etc.)</option>
-          <option points="3">Certificación parcial o en proceso</option>
-          <option points="2">Auditorías puntuales sin certificación completa</option>
-          <option points="1">Declaraciones básicas sobre responsabilidad</option>
-          <option points="0">Sin compromiso ni evidencia</option>
-        </options>
-      </question>
-      <question>
-        <text>Lugar de Producción</text>
-        <maxPoints>4</maxPoints>
-        <options>
-          <option points="4">Producción local/regional (Europa), trazabilidad completa</option>
-          <option points="2">Producción fuera de Europa con trazabilidad parcial</option>
-          <option points="1">Producción fuera de Europa (Asia, Latam) con riesgos éticos</option>
-          <option points="0">Producción en zonas de alto riesgo sin trazabilidad</option>
-        </options>
-      </question>
-    </questions>
-  </pillar>
-</pillars>
-`
+const SURVEY_DATA_PATH = path.join(__dirname, 'data', 'initial-survey.xml')
 
 function ensureArray<T>(value: T | T[] | undefined): T[] {
   if (!value) return []
@@ -80,14 +49,14 @@ async function seedUsers() {
       email: 'admin@example.com',
       name: 'Admin User',
       role: UserRole.ADMIN,
-      password: 'Admin123!'
+      password: 'Admin123!',
     },
     {
       email: 'user@example.com',
       name: 'Survey User',
       role: UserRole.USER,
-      password: 'User123!'
-    }
+      password: 'User123!',
+    },
   ]
 
   for (const user of users) {
@@ -105,7 +74,7 @@ async function seedUsers() {
         name: user.name,
         role: user.role,
         password: hashedPassword,
-      }
+      },
     })
   }
 }
@@ -170,9 +139,8 @@ async function seedFromXml(xml: string) {
           continue
         }
 
-        const pointsValue = typeof optionNode === 'string'
-          ? 0
-          : Number(optionNode.$?.points ?? 0)
+        const pointsValue =
+          typeof optionNode === 'string' ? 0 : Number(optionNode.$?.points ?? 0)
 
         await prisma.option.upsert({
           where: {
@@ -195,9 +163,10 @@ async function seedFromXml(xml: string) {
 
 async function main() {
   await seedUsers()
-  console.log('Seeding pillars, questions and options from XML...')
-  await seedFromXml(INITIAL_DATA_XML)
-  console.log('Seed completed successfully.')
+  console.log('Loading survey structure from XML...')
+  const xml = await fs.readFile(SURVEY_DATA_PATH, 'utf-8')
+  await seedFromXml(xml)
+  console.log(`Seed completed successfully using ${path.relative(process.cwd(), SURVEY_DATA_PATH)}`)
 }
 
 main()

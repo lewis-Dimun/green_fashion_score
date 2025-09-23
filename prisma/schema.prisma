@@ -100,6 +100,7 @@ model Option {
   points     Int
   questionId String
   question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  responses  Response[]
 
   @@unique([questionId, label])
 }
@@ -110,13 +111,16 @@ model Response {
   createdAt  DateTime @default(now())
   userId     String
   questionId String
+  optionId   String?
 
   user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   question Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  option   Option?  @relation(fields: [optionId], references: [id], onDelete: Cascade)
 
   @@unique([userId, questionId])
   @@index([userId])
   @@index([questionId])
+  @@index([optionId])
 }
 
 model SurveyResult {
@@ -136,3 +140,6 @@ enum UserRole {
   ADMIN
   USER
 }
+
+
+

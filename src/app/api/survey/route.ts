@@ -55,32 +55,46 @@ export async function POST(request: Request) {
     })
 
     const optionById = new Map(options.map((opt) => [opt.id, opt]))
-    const createData: { userId: string; questionId: string; score: number }[] = []
+    const createData: { userId: string; questionId: string; optionId: string; score: number }[] = []
+    const seenQuestionIds = new Set<string>()
 
     for (const entry of sanitized) {
       const option = optionById.get(entry.optionId)
       if (!option || option.questionId !== entry.questionId) {
         return NextResponse.json({ error: 'Invalid option selection' }, { status: 400 })
       }
+      if (seenQuestionIds.has(option.questionId)) {
+        return NextResponse.json({ error: 'Duplicate responses for question detected' }, { status: 400 })
+      }
+      seenQuestionIds.add(option.questionId)
       createData.push({
         userId: session.user.id,
         questionId: option.questionId,
+        optionId: option.id,
         score: Number(option.points ?? 0),
       })
     }
 
-    const questionIds = createData.map((item) => item.questionId)
+    const questionIds = Array.from(new Set(createData.map((item) => item.questionId)))
 
-    await prisma.response.deleteMany({
-      where: {
-        userId: session.user.id,
-        questionId: { in: questionIds },
-      },
+    await prisma.$transaction(async (tx) => {
+      if (questionIds.length > 0) {
+        await tx.response.deleteMany({
+          where: {
+            userId: session.user.id,
+            questionId: { in: questionIds },
+          },
+        })
+      } else {
+        await tx.response.deleteMany({
+          where: { userId: session.user.id },
+        })
+      }
+
+      if (createData.length > 0) {
+        await tx.response.createMany({ data: createData })
+      }
     })
-
-    if (createData.length > 0) {
-      await prisma.response.createMany({ data: createData })
-    }
 
     const scoring = await calculateUserScore(session.user.id)
 
@@ -90,3 +104,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Failed to submit survey' }, { status: 500 })
   }
 }
+
+
+
+
+
+

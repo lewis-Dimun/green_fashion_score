@@ -5,13 +5,14 @@ Next.js sustainability survey platform using TypeScript, Tailwind CSS, Prisma, P
 ## Features
 
 - Next.js 15 App Router with TypeScript
-- Tailwind CSS styling
-- Prisma ORM with PostgreSQL
-- NextAuth.js credentials provider with role-based sessions
-- Admin dashboard and user-facing survey flows
-- Chart.js visualisations
+- Tailwind CSS styling and Chart.js data visualisations
+- Prisma ORM with PostgreSQL and NextAuth credentials authentication
+- Role-aware dashboards: admin survey builder & user-specific analytics
+- Transactional survey submission with weighted KPI scoring
+- XML-driven content seeding (editable via `prisma/data/initial-survey.xml`)
 
 ## Getting Started
+
 
 ### Prerequisites
 
@@ -63,13 +64,13 @@ The seed script creates two credential-based users:
 | ADMIN | admin@example.com | Admin123! | `/dashboard` management UI |
 | USER  | user@example.com  | User123!  | `/survey` questionnaire UI |
 
-- Admin users are redirected to the management dashboard where survey content can be reviewed.
-- User accounts are redirected to the survey experience. Attempting to access an admin area results in an "Access denied" page.
+- Admin accounts land on the management dashboard to maintain survey content, review submissions, and access portfolio analytics.
+- User accounts land on their personal dashboard (`/dashboard`) where they can review scores while `/survey` remains available for edits.
 
 ## Seeding & Content
 
-- `prisma/seed.ts` parses `Resultados Green Fashion Score.xlsx` (pillars/questions/options) and upserts demo users. Update the XML payload inside the seed file or extend the parser to ingest other inputs.
-- Re-run `npm run db:seed` whenever seeded data needs to be refreshed.
+- `prisma/seed.ts` ingests the editable XML file at `prisma/data/initial-survey.xml` and upserts demo users.
+- Update or replace the XML document to evolve pillars, questions, and options, then run `npm run db:seed` to refresh the catalog.
 
 ## Available Scripts
 
@@ -89,26 +90,29 @@ The seed script creates two credential-based users:
 ```
 src/
   app/
-    api/                # API routes (register, next-auth)
+    api/                # API routes (auth, survey, management, analytics)
     auth/               # Sign in / sign up pages
-    dashboard/          # Admin-only management UI
+    charts/             # Server-guarded analytics landing
+    dashboard/          # Admin builder + user analytics dashboards
     survey/             # User-facing survey experience
     unauthorized/       # Shared "no permission" page
     layout.tsx          # Root layout
     page.tsx            # Landing page
   components/           # Shared components
-  lib/                  # Prisma client and NextAuth config
+  lib/                  # Prisma client, auth config, scoring helpers
   types/                # NextAuth type augmentation
 prisma/
+  data/                 # XML survey seed inputs
   migrations/           # Prisma migrations
   schema.prisma         # Data model
-  seed.ts               # XML-driven and user seed logic
+  seed.ts               # XML-driven seed logic
 ```
+
 
 
 ## Protected API Endpoints
 
-All endpoints below require an authenticated session with the `ADMIN` role. Requests without the appropriate role receive `401/403` responses from the middleware layer.
+**Admin only**
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
@@ -129,9 +133,16 @@ All endpoints below require an authenticated session with the `ADMIN` role. Requ
 | DELETE | /api/options/:id | Delete option |
 | GET    | /api/results | List survey results |
 | GET    | /api/results/:id | Retrieve result detail |
+| GET    | /api/fashion-scores | Portfolio scores across users |
 
-The middleware (`middleware.ts`) enforces the role checks for these routes, while `/survey` remains restricted to `USER` accounts.
+**User scoped**
 
+| Method | Endpoint        | Description |
+|--------|-----------------|-------------|
+| GET    | /api/results/me | Retrieve the caller's survey result and responses |
+| GET    | /api/fashion-scores | List only the caller's fashion scores |
+
+Middleware guards (middleware.ts) enforce these role checks while /survey is restricted to authenticated USER accounts.
 
 ## Survey Submission API
 
@@ -156,3 +167,8 @@ Accessible to authenticated `USER` accounts.
 - Adjust the XML seed dataset or create additional migrations as your survey evolves.
 
 Happy auditing! :seedling:
+
+
+
+
+

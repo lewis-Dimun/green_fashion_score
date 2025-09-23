@@ -4,8 +4,9 @@ import type { NextRequest } from 'next/server'
 
 const ADMIN_ROLE = 'ADMIN'
 const USER_ROLE = 'USER'
+const DASHBOARD_ROLES = new Set([ADMIN_ROLE, USER_ROLE])
 const ADMIN_API_PREFIXES = ['/api/pillars', '/api/questions', '/api/options', '/api/results']
-const USER_API_PREFIXES = ['/api/survey']
+const USER_API_PREFIXES = ['/api/survey', '/api/results/me']
 
 export default withAuth(
   function middleware(req: NextRequest) {
@@ -23,11 +24,15 @@ export default withAuth(
       return NextResponse.redirect(new URL('/auth/signin', req.url))
     }
 
-    if (pathname.startsWith('/dashboard') && role !== ADMIN_ROLE) {
+    if (pathname.startsWith('/dashboard') && (!role || !DASHBOARD_ROLES.has(role))) {
       return NextResponse.redirect(new URL('/unauthorized', req.url))
     }
 
     if (pathname.startsWith('/survey') && role !== USER_ROLE) {
+      return NextResponse.redirect(new URL('/unauthorized', req.url))
+    }
+
+    if (pathname.startsWith('/charts') && (!role || !DASHBOARD_ROLES.has(role))) {
       return NextResponse.redirect(new URL('/unauthorized', req.url))
     }
 
@@ -45,17 +50,19 @@ export default withAuth(
     callbacks: {
       authorized: ({ token }) => !!token,
     },
-  }
+  },
 )
 
 export const config = {
   matcher: [
     '/dashboard/:path*',
     '/survey/:path*',
+    '/charts/:path*',
     '/api/pillars/:path*',
     '/api/questions/:path*',
     '/api/options/:path*',
     '/api/results/:path*',
+    '/api/results/me',
     '/api/survey/:path*',
   ],
 }

@@ -29,7 +29,7 @@ export async function PUT(request: Request, { params }: Params) {
 
   try {
     const body = await request.json()
-    const { text, maxPoints, pillarId } = body ?? {}
+    const { text, maxPoints, pillarId, isHidden } = body ?? {}
 
     const question = await prisma.question.update({
       where: { id: params.id },
@@ -37,6 +37,7 @@ export async function PUT(request: Request, { params }: Params) {
         ...(text ? { text } : {}),
         ...(typeof maxPoints === 'number' ? { maxPoints } : {}),
         ...(pillarId ? { pillarId } : {}),
+        ...(typeof isHidden === 'boolean' ? { isHidden } : {}),
       },
     })
 

@@ -21,6 +21,7 @@ jest.mock('@/lib/prisma', () => ({
       deleteMany: jest.fn(),
       createMany: jest.fn(),
     },
+    $transaction: jest.fn(),
   },
 }))
 
@@ -32,11 +33,13 @@ const mockRequireAuth = requireAuth as jest.MockedFunction<typeof requireAuth>
 const mockPillar = prisma.pillar as jest.Mocked<typeof prisma.pillar>
 const mockOption = prisma.option as jest.Mocked<typeof prisma.option>
 const mockResponse = prisma.response as jest.Mocked<typeof prisma.response>
+const mockTransaction = prisma.$transaction as jest.Mock
 const mockScoring = calculateUserScore as jest.MockedFunction<typeof calculateUserScore>
 
 describe('Survey API', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+    mockTransaction.mockImplementation(async (callback) => callback({ response: mockResponse }))
   })
 
   describe('GET /api/survey', () => {
@@ -93,7 +96,7 @@ describe('Survey API', () => {
       mockOption.findMany.mockResolvedValue([
         { id: 'opt-1', questionId: 'q1', points: 4 },
       ] as any)
-      mockScoring.mockResolvedValue({ totalScore: 1, breakdown: [] })
+      mockScoring.mockResolvedValue({ totalScore: 1, breakdown: [], responses: [] })
 
       const req = new Request('http://localhost/api/survey', {
         method: 'POST',
@@ -108,6 +111,7 @@ describe('Survey API', () => {
         where: { id: { in: ['opt-1'] } },
         select: { id: true, points: true, questionId: true },
       })
+      expect(mockTransaction).toHaveBeenCalled()
       expect(mockResponse.deleteMany).toHaveBeenCalledWith({
         where: {
           userId: 'user-1',
@@ -115,11 +119,11 @@ describe('Survey API', () => {
         },
       })
       expect(mockResponse.createMany).toHaveBeenCalledWith({
-        data: [{ userId: 'user-1', questionId: 'q1', score: 4 }],
+        data: [{ userId: 'user-1', questionId: 'q1', optionId: 'opt-1', score: 4 }],
       })
       expect(mockScoring).toHaveBeenCalledWith('user-1')
       expect(res.status).toBe(201)
-      expect(body).toEqual({ totalScore: 1, breakdown: [] })
+      expect(body).toEqual({ totalScore: 1, breakdown: [], responses: [] })
     })
   })
 })
