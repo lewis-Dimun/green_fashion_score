@@ -183,27 +183,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Trust Logos */}
-      <section className="bg-white/50 py-16">
-        <div className="mx-auto w-full max-w-7xl px-6">
-          <div className="text-center mb-8">
-            <p className="text-lg text-gray-600 mb-8">
-              Inspirado en estandares internacionales, adaptado al sector moda.
-            </p>
-          </div>
-          
-          <div className="flex flex-wrap justify-center items-center gap-8 opacity-60">
-            {trustLogos.map((logo) => (
-              <div key={logo.name} className="flex flex-col items-center">
-                <div className="w-16 h-16 bg-gray-200 rounded-lg flex items-center justify-center mb-2">
-                  <span className="text-gray-600 font-bold text-lg">{logo.logo}</span>
-                </div>
-                <span className="text-sm text-gray-500">{logo.name}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Trust Logos removed per request */}
 
       {/* Como Funciona */}
       <section className="mx-auto w-full max-w-7xl px-6 py-20">
@@ -426,7 +406,7 @@ export default function Home() {
         <div className="grid gap-8 md:grid-cols-2">
           {testimonials.map((testimonial, index) => (
             <div key={index} className="rounded-2xl bg-white/80 backdrop-blur-sm border border-white/20 p-8 shadow-xl">
-              <div className="text-4xl text-emerald-600 mb-4">"</div>
+              <div className="text-4xl text-emerald-600 mb-4">&quot;</div>
               <p className="text-lg text-gray-700 mb-6 italic">
                 {testimonial.quote}
               </p>
