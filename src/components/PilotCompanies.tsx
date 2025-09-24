@@ -1,35 +1,15 @@
-import Image from "next/image"
-
 const companies = [
   { 
     name: "TWOTHIRDS", 
-    logo: "/logos/twothirds.svg",
     description: "Marca española de moda sostenible con enfoque en materiales orgánicos"
   },
   { 
-    name: "Organic Cotton Colours", 
-    logo: "/logos/organiccotton.svg",
-    description: "Especialistas en algodón orgánico con colores naturales"
-  },
-  { 
     name: "Sepiia", 
-    logo: "/logos/sepiia.svg",
     description: "Tecnología textil innovadora para prendas funcionales"
   },
   { 
-    name: "Lefrik", 
-    logo: "/logos/lefrik.svg",
-    description: "Bolsos y accesorios sostenibles hechos de materiales reciclados"
-  },
-  { 
     name: "Ekomodo", 
-    logo: "/logos/ekomodo.svg",
     description: "Moda circular con prendas diseñadas para durar"
-  },
-  { 
-    name: "Eco Fashion", 
-    logo: "/logos/ecofashion.svg",
-    description: "Colecciones sostenibles con certificaciones éticas"
   }
 ]
 
@@ -44,22 +24,19 @@ export default function PilotCompanies() {
           Estas marcas ya han confiado en Green Fashion Score para evaluar su sostenibilidad y mejorar sus practicas.
         </p>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-8 items-center justify-items-center">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 items-center justify-items-center max-w-4xl mx-auto">
           {companies.map((company) => (
             <div 
               key={company.name} 
-              className="group flex flex-col items-center justify-center p-4 rounded-xl hover:bg-white/80 transition-all duration-300 cursor-pointer"
+              className="group flex flex-col items-center justify-center p-6 rounded-xl hover:bg-white/80 transition-all duration-300 cursor-pointer border border-gray-200 hover:border-emerald-300"
               title={company.description}
             >
-              <div className="relative w-24 h-12 mb-2">
-                <Image
-                  src={company.logo}
-                  alt={`Logo de ${company.name}`}
-                  fill
-                  className="object-contain grayscale group-hover:grayscale-0 transition-all duration-300 filter"
-                />
+              <div className="w-20 h-20 bg-gradient-to-br from-emerald-100 to-teal-100 rounded-full flex items-center justify-center mb-3 group-hover:from-emerald-200 group-hover:to-teal-200 transition-all duration-300">
+                <span className="text-emerald-700 font-bold text-lg group-hover:text-emerald-800 transition-colors duration-300">
+                  {company.name.charAt(0)}
+                </span>
               </div>
-              <span className="text-xs text-gray-500 group-hover:text-gray-700 transition-colors duration-300 text-center">
+              <span className="text-sm font-semibold text-gray-700 group-hover:text-emerald-700 transition-colors duration-300 text-center">
                 {company.name}
               </span>
             </div>
