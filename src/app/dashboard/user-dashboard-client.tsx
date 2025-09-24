@@ -148,23 +148,23 @@ export default function UserDashboardClient() {
       <div className="bg-white/80 backdrop-blur-sm border-b border-emerald-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <div>
+          <div>
               <h1 className="text-3xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
                 Mi Panel de Certificacion
               </h1>
               <p className="text-gray-600">Revisa los resultados e insights de tu evaluacion de sostenibilidad</p>
-            </div>
-            <div className="flex gap-3">
-              <Link
-                href="/survey"
+          </div>
+          <div className="flex gap-3">
+            <Link
+              href="/survey"
                 className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-emerald-600 hover:to-teal-700 transition-all duration-200 shadow-lg hover:shadow-xl flex items-center space-x-2"
-              >
+            >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                 </svg>
                 <span>Actualizar Evaluacion</span>
-              </Link>
-            </div>
+            </Link>
+          </div>
           </div>
         </div>
       </div>
@@ -182,15 +182,15 @@ export default function UserDashboardClient() {
             <p className="text-gray-600 mb-8 max-w-md mx-auto">
               Completa la evaluacion integral de sostenibilidad para desbloquear tu panel de certificacion personalizado e insights detallados.
             </p>
-            <Link
-              href="/survey"
+              <Link
+                href="/survey"
               className="inline-flex items-center bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-emerald-600 hover:to-teal-700 transition-all duration-200 shadow-lg hover:shadow-xl space-x-2"
-            >
+              >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
               </svg>
               <span>Comenzar Evaluacion</span>
-            </Link>
+              </Link>
           </section>
         ) : (
           <>
@@ -274,14 +274,14 @@ export default function UserDashboardClient() {
                         <div className="flex justify-between text-sm">
                           <span className="text-gray-600">Puntos Obtenidos</span>
                           <span className="font-medium">{pillar.obtained.toFixed(1)} / {pillar.maxPoints}</span>
-                        </div>
+                      </div>
                         
-                        <div className="h-3 w-full overflow-hidden rounded-full bg-gray-200">
-                          <div
+                      <div className="h-3 w-full overflow-hidden rounded-full bg-gray-200">
+                        <div
                             className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 transition-all duration-1000 ease-out"
-                            style={{ width: `${(achievedRatio * 100).toFixed(2)}%` }}
-                          />
-                        </div>
+                          style={{ width: `${(achievedRatio * 100).toFixed(2)}%` }}
+                        />
+                      </div>
                         
                         <div className="flex justify-between text-xs text-gray-500">
                           <span>Peso del Pilar: {formatPercentage(pillar.weight)}</span>

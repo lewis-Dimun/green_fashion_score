@@ -80,6 +80,7 @@ model Question {
   pillar    Pillar     @relation(fields: [pillarId], references: [id], onDelete: Cascade)
 
   @@unique([pillarId, text])
+  @@index([pillarId])
 }
 
 model Option {
@@ -91,6 +92,7 @@ model Option {
   responses  Response[]
 
   @@unique([questionId, label])
+  @@index([questionId])
 }
 
 model Response {
@@ -109,6 +111,7 @@ model Response {
   @@index([userId])
   @@index([questionId])
   @@index([optionId])
+  @@index([createdAt])
 }
 
 model SurveyResult {
@@ -122,6 +125,7 @@ model SurveyResult {
 
   @@unique([userId])
   @@index([userId])
+  @@index([createdAt])
 }
 
 enum UserRole {
