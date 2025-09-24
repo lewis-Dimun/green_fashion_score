@@ -48,7 +48,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Invalid payload' }, { status: 400 })
     }
 
-    const optionIds = sanitized.map((item) => item.optionId)
+    const optionIds = sanitized.map((item: any) => item.optionId)
     const options = await prisma.option.findMany({
       where: { id: { in: optionIds } },
       select: { id: true, points: true, questionId: true },

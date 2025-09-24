@@ -4,16 +4,20 @@ import { signIn, getSession } from 'next-auth/react'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { Eye, EyeOff, Leaf, ArrowRight } from 'lucide-react'
 
 export default function SignIn() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
+  const [error, setError] = useState('')
   const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
+    setError('')
 
     try {
       const result = await signIn('credentials', {
@@ -25,34 +29,33 @@ export default function SignIn() {
       if (result?.ok) {
         router.push('/dashboard')
       } else {
-        alert('Invalid credentials')
+        setError('Invalid credentials. Please check your email and password.')
       }
     } catch (error) {
-      alert('An error occurred')
+      setError('An error occurred. Please try again.')
     } finally {
       setIsLoading(false)
     }
   }
 
-
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Sign in to your account
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-teal-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-bold text-gray-900 mb-2">
+            Bienvenido de vuelta
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Or{' '}
-            <Link href="/auth/signup" className="font-medium text-indigo-600 hover:text-indigo-500">
-              create a new account
-            </Link>
+          <p className="text-gray-600">
+            Inicia sesion para continuar tu viaje de certificacion de sostenibilidad
           </p>
         </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="rounded-md shadow-sm -space-y-px">
+
+        {/* Form */}
+        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8">
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
-              <label htmlFor="email" className="sr-only">
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
                 Email address
               </label>
               <input
@@ -61,41 +64,82 @@ export default function SignIn() {
                 type="email"
                 autoComplete="email"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Email address"
+                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors duration-200 bg-white/50"
+                placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
+
             <div>
-              <label htmlFor="password" className="sr-only">
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
                 Password
               </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
+              <div className="relative">
+                <input
+                  id="password"
+                  name="password"
+                  type={showPassword ? 'text' : 'password'}
+                  autoComplete="current-password"
+                  required
+                  className="w-full px-4 py-3 pr-12 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors duration-200 bg-white/50"
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <button
+                  type="button"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                </button>
+              </div>
             </div>
-          </div>
 
-          <div>
+            {error && (
+              <div className="bg-red-50 border border-red-200 rounded-xl p-4">
+                <p className="text-red-600 text-sm">{error}</p>
+              </div>
+            )}
+
             <button
               type="submit"
               disabled={isLoading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+              className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 text-white py-3 px-4 rounded-xl font-semibold hover:from-emerald-600 hover:to-teal-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl"
             >
-              {isLoading ? 'Signing in...' : 'Sign in'}
+              {isLoading ? (
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+              ) : (
+                <>
+                  <span>Sign in</span>
+                  <ArrowRight className="w-4 h-4" />
+                </>
+              )}
             </button>
-          </div>
+          </form>
 
-        </form>
+          <div className="mt-6 text-center">
+            <p className="text-sm text-gray-600">
+              Don&apos;t have an account?{' '}
+              <Link
+                href="/auth/signup"
+                className="font-semibold text-emerald-600 hover:text-emerald-700 transition-colors duration-200"
+              >
+                Create one here
+              </Link>
+            </p>
+          </div>
+        </div>
+
+        {/* Demo Credentials */}
+        <div className="mt-8 bg-blue-50 border border-blue-200 rounded-xl p-4">
+          <h3 className="text-sm font-semibold text-blue-900 mb-2">Demo Credentials</h3>
+          <div className="text-xs text-blue-700 space-y-1">
+            <p><strong>Admin:</strong> admin@example.com / Admin123!</p>
+            <p><strong>User:</strong> user@example.com / User123!</p>
+          </div>
+        </div>
       </div>
     </div>
   )

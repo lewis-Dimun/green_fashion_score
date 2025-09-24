@@ -4,15 +4,16 @@ import { requireAuth } from '@/lib/server-auth'
 import { UserRole } from '@prisma/client'
 
 interface Params {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }
 
 export async function GET(_request: Request, { params }: Params) {
+  const { id } = await params
   const { error } = await requireAuth(UserRole.ADMIN)
   if (error) return error
 
   const option = await prisma.option.findUnique({
-    where: { id: params.id },
+    where: { id },
   })
 
   if (!option) {
@@ -23,6 +24,7 @@ export async function GET(_request: Request, { params }: Params) {
 }
 
 export async function PUT(request: Request, { params }: Params) {
+  const { id } = await params
   const { error } = await requireAuth(UserRole.ADMIN)
   if (error) return error
 
@@ -31,7 +33,7 @@ export async function PUT(request: Request, { params }: Params) {
     const { label, points } = body ?? {}
 
     const option = await prisma.option.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         ...(label ? { label } : {}),
         ...(typeof points === 'number' ? { points } : {}),
@@ -46,11 +48,12 @@ export async function PUT(request: Request, { params }: Params) {
 }
 
 export async function DELETE(_request: Request, { params }: Params) {
+  const { id } = await params
   const { error } = await requireAuth(UserRole.ADMIN)
   if (error) return error
 
   try {
-    await prisma.option.delete({ where: { id: params.id } })
+    await prisma.option.delete({ where: { id } })
     return NextResponse.json({ success: true })
   } catch (err) {
     console.error('Delete option error:', err)

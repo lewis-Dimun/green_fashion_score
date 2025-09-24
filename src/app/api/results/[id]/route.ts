@@ -4,15 +4,16 @@ import { requireAuth } from '@/lib/server-auth'
 import { UserRole } from '@prisma/client'
 
 interface Params {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }
 
 export async function GET(_request: Request, { params }: Params) {
+  const { id } = await params
   const { error } = await requireAuth(UserRole.ADMIN)
   if (error) return error
 
   const result = await prisma.surveyResult.findUnique({
-    where: { id: params.id },
+    where: { id },
     include: {
       user: {
         select: {

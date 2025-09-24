@@ -1,57 +1,310 @@
 <pillars>
   <pillar>
     <name>People</name>
-    <description>Social impact and labour practices.</description>
-    <maxPoints>44</maxPoints>
+    <description>Impacto social y practicas laborales justas</description>
+    <maxPoints>20</maxPoints>
     <weight>0.20</weight>
     <questions>
       <question>
-        <text>Responsible sourcing</text>
+        <text>¿Tu empresa cuenta con certificacion etica externa y garantiza salario digno en toda la cadena de suministro?</text>
         <maxPoints>4</maxPoints>
         <options>
-          <option points="4">Verified external certification (Fair Trade, SA8000, etc)</option>
-          <option points="3">Certification in progress with third-party audits</option>
-          <option points="2">Internal audits without formal certification</option>
-          <option points="1">Basic supplier code of conduct</option>
-          <option points="0">No documented approach</option>
+          <option points="4">Certificacion etica completa (Fair Trade, SA8000, B Corp, Fair Wear) + auditorias anuales publicadas</option>
+          <option points="3">Certificacion parcial o en proceso + auditorias periodicas + compromiso con salario digno</option>
+          <option points="2">Auditorias puntuales sin certificacion completa</option>
+          <option points="1">Solo declaraciones sin auditorias verificables</option>
+          <option points="0">Sin compromiso ni evidencia</option>
         </options>
       </question>
       <question>
-        <text>Production geography</text>
+        <text>¿Donde se realiza la produccion, confeccion y ensamblaje?</text>
         <maxPoints>4</maxPoints>
         <options>
-          <option points="4">Made locally or regionally with full traceability</option>
-          <option points="2">Mixed regions with partial traceability</option>
-          <option points="1">Global supply chain with limited oversight</option>
-          <option points="0">Unknown or high risk production regions</option>
+          <option points="4">Certificacion etica completa + auditorias anuales + salario digno garantizado</option>
+          <option points="3">Certificacion parcial o en proceso + auditorias periodicas</option>
+          <option points="2">Auditorias puntuales sin certificacion</option>
+          <option points="1">Solo declaraciones sin verificacion</option>
+          <option points="0">Sin compromiso ni evidencia</option>
+        </options>
+      </question>
+      <question>
+        <text>¿Que politicas de equidad e inclusion implementa tu empresa?</text>
+        <maxPoints>4</maxPoints>
+        <options>
+          <option points="4">Politicas integrales de DEI con metricas publicas y auditorias externas</option>
+          <option points="3">Politicas de equidad implementadas con seguimiento interno</option>
+          <option points="2">Iniciativas puntuales de inclusion</option>
+          <option points="1">Compromisos generales sin acciones especificas</option>
+          <option points="0">Sin politicas de equidad</option>
+        </options>
+      </question>
+      <question>
+        <text>¿Como garantiza tu empresa la gobernanza y transparencia en la cadena de suministro?</text>
+        <maxPoints>4</maxPoints>
+        <options>
+          <option points="4">Transparencia total con mapas publicos de proveedores + auditorias independientes</option>
+          <option points="3">Transparencia parcial con listas de proveedores principales</option>
+          <option points="2">Informacion limitada sobre proveedores</option>
+          <option points="1">Solo declaraciones generales</option>
+          <option points="0">Sin transparencia en cadena de suministro</option>
+        </options>
+      </question>
+      <question>
+        <text>¿Que programas de desarrollo y bienestar tiene tu empresa para los trabajadores?</text>
+        <maxPoints>4</maxPoints>
+        <options>
+          <option points="4">Programas integrales de desarrollo profesional + bienestar + beneficios superiores</option>
+          <option points="3">Programas de desarrollo y bienestar implementados</option>
+          <option points="2">Algunos programas de bienestar</option>
+          <option points="1">Beneficios basicos legales</option>
+          <option points="0">Sin programas de desarrollo</option>
         </options>
       </question>
     </questions>
   </pillar>
+  
   <pillar>
     <name>Planet</name>
-    <description>Environmental stewardship and resource management.</description>
-    <maxPoints>56</maxPoints>
-    <weight>0.35</weight>
+    <description>Gestion ambiental y uso responsable de recursos</description>
+    <maxPoints>20</maxPoints>
+    <weight>0.20</weight>
     <questions>
       <question>
-        <text>Materials footprint</text>
-        <maxPoints>6</maxPoints>
+        <text>¿Que politicas ambientales implementa tu empresa?</text>
+        <maxPoints>4</maxPoints>
         <options>
-          <option points="6">Majority certified recycled or organic inputs</option>
-          <option points="4">Blended materials with some sustainable content</option>
-          <option points="2">Limited transparency on material mix</option>
-          <option points="0">No environmental criteria applied</option>
+          <option points="4">Politica integral con certificaciones (ISO 14001, EMAS) + mejora continua</option>
+          <option points="3">Politica ambiental parcial + reportes publicos</option>
+          <option points="2">Medidas puntuales sin certificacion</option>
+          <option points="1">Compromisos generales sin evidencia</option>
+          <option points="0">Sin politica ambiental</option>
         </options>
       </question>
       <question>
-        <text>Emissions reduction</text>
-        <maxPoints>6</maxPoints>
+        <text>¿Como gestiona tu empresa las emisiones de carbono?</text>
+        <maxPoints>4</maxPoints>
         <options>
-          <option points="6">Science-based targets with annual public reporting</option>
-          <option points="4">Reduction programme with internal tracking</option>
-          <option points="2">Emerging plans without clear metrics</option>
-          <option points="0">No emissions strategy in place</option>
+          <option points="4">Objetivos basados en ciencia + reduccion anual verificada + compensacion</option>
+          <option points="3">Programa de reduccion con seguimiento interno</option>
+          <option points="2">Medicion de emisiones sin objetivos claros</option>
+          <option points="1">Compromisos generales sin medicion</option>
+          <option points="0">Sin gestion de emisiones</option>
+        </options>
+      </question>
+      <question>
+        <text>¿Que estrategias tiene tu empresa para el uso eficiente del agua?</text>
+        <maxPoints>4</maxPoints>
+        <options>
+          <option points="4">Sistema integral de gestion del agua + reutilizacion + certificaciones</option>
+          <option points="3">Medidas de eficiencia implementadas con seguimiento</option>
+          <option points="2">Algunas medidas de ahorro de agua</option>
+          <option points="1">Compromisos generales</option>
+          <option points="0">Sin estrategia de agua</option>
+        </options>
+      </question>
+      <question>
+        <text>¿Como maneja tu empresa los residuos y la contaminacion?</text>
+        <maxPoints>4</maxPoints>
+        <options>
+          <option points="4">Cero residuos + tratamiento avanzado + monitoreo continuo</option>
+          <option points="3">Programa de reduccion de residuos + tratamiento adecuado</option>
+          <option points="2">Manejo basico de residuos</option>
+          <option points="1">Cumplimiento legal minimo</option>
+          <option points="0">Sin manejo de residuos</option>
+        </options>
+      </question>
+      <question>
+        <text>¿Que acciones toma tu empresa para proteger la biodiversidad?</text>
+        <maxPoints>4</maxPoints>
+        <options>
+          <option points="4">Programas activos de conservacion + certificaciones de biodiversidad</option>
+          <option points="3">Iniciativas de proteccion implementadas</option>
+          <option points="2">Algunas medidas de proteccion</option>
+          <option points="1">Compromisos generales</option>
+          <option points="0">Sin acciones de biodiversidad</option>
+        </options>
+      </question>
+    </questions>
+  </pillar>
+  
+  <pillar>
+    <name>Materials</name>
+    <description>Sostenibilidad de las materias primas y procesos</description>
+    <maxPoints>40</maxPoints>
+    <weight>0.40</weight>
+    <questions>
+      <question>
+        <text>¿Que porcentaje de tus materiales son sostenibles o certificados?</text>
+        <maxPoints>4</maxPoints>
+        <options>
+          <option points="4">Mas del 90% (organicos, reciclados, certificados GOTS/GRS/etc.)</option>
+          <option points="3">Entre 60% y 89%</option>
+          <option points="2">Entre 30% y 59%</option>
+          <option points="1">Menos del 30%</option>
+          <option points="0">Ninguno</option>
+        </options>
+      </question>
+      <question>
+        <text>¿Como garantiza tu empresa la trazabilidad de los materiales?</text>
+        <maxPoints>4</maxPoints>
+        <options>
+          <option points="4">Trazabilidad completa desde origen + certificaciones + blockchain</option>
+          <option points="3">Trazabilidad de proveedores principales + certificaciones</option>
+          <option points="2">Trazabilidad parcial de algunos materiales</option>
+          <option points="1">Informacion limitada sobre origen</option>
+          <option points="0">Sin trazabilidad</option>
+        </options>
+      </question>
+      <question>
+        <text>¿Que controles tiene tu empresa sobre el uso de quimicos?</text>
+        <maxPoints>4</maxPoints>
+        <options>
+          <option points="4">Lista restringida de sustancias + certificaciones + alternativas verdes</option>
+          <option points="3">Control de quimicos + certificaciones basicas</option>
+          <option points="2">Algunos controles de sustancias</option>
+          <option points="1">Cumplimiento legal minimo</option>
+          <option points="0">Sin control de quimicos</option>
+        </options>
+      </question>
+      <question>
+        <text>¿Como es el packaging de tus productos?</text>
+        <maxPoints>4</maxPoints>
+        <options>
+          <option points="4">100% reciclable/biodegradable + minimo packaging + reutilizable</option>
+          <option points="3">Mayoria reciclable + reduccion de packaging</option>
+          <option points="2">Algunos materiales reciclables</option>
+          <option points="1">Packaging convencional</option>
+          <option points="0">Packaging no sostenible</option>
+        </options>
+      </question>
+      <question>
+        <text>¿Que procesos de produccion sostenible implementa tu empresa?</text>
+        <maxPoints>4</maxPoints>
+        <options>
+          <option points="4">Procesos certificados + tecnologia limpia + eficiencia energetica</option>
+          <option points="3">Procesos optimizados + certificaciones basicas</option>
+          <option points="2">Algunas mejoras en procesos</option>
+          <option points="1">Procesos convencionales</option>
+          <option points="0">Procesos no sostenibles</option>
+        </options>
+      </question>
+      <question>
+        <text>¿Como gestiona tu empresa la calidad y durabilidad de los productos?</text>
+        <maxPoints>4</maxPoints>
+        <options>
+          <option points="4">Diseño para durabilidad + garantias extendidas + reparabilidad</option>
+          <option points="3">Enfoque en calidad + garantias estandard</option>
+          <option points="2">Calidad basica</option>
+          <option points="1">Calidad minima</option>
+          <option points="0">Sin enfoque en durabilidad</option>
+        </options>
+      </question>
+      <question>
+        <text>¿Que innovaciones sostenibles ha desarrollado tu empresa?</text>
+        <maxPoints>4</maxPoints>
+        <options>
+          <option points="4">Innovaciones propias + patentes + colaboraciones de I+D</option>
+          <option points="3">Adopcion de tecnologias sostenibles</option>
+          <option points="2">Algunas innovaciones implementadas</option>
+          <option points="1">Innovaciones limitadas</option>
+          <option points="0">Sin innovaciones sostenibles</option>
+        </options>
+      </question>
+      <question>
+        <text>¿Como colabora tu empresa con proveedores sostenibles?</text>
+        <maxPoints>4</maxPoints>
+        <options>
+          <option points="4">Red de proveedores certificados + desarrollo conjunto + auditorias</option>
+          <option points="3">Proveedores sostenibles + colaboracion basica</option>
+          <option points="2">Algunos proveedores sostenibles</option>
+          <option points="1">Criterios basicos de sostenibilidad</option>
+          <option points="0">Sin criterios de sostenibilidad</option>
+        </options>
+      </question>
+      <question>
+        <text>¿Que certificaciones de materiales tiene tu empresa?</text>
+        <maxPoints>4</maxPoints>
+        <options>
+          <option points="4">Multiples certificaciones (GOTS, GRS, Oeko-Tex, etc.) + auditorias</option>
+          <option points="3">Certificaciones principales implementadas</option>
+          <option points="2">Algunas certificaciones basicas</option>
+          <option points="1">Certificaciones limitadas</option>
+          <option points="0">Sin certificaciones</option>
+        </options>
+      </question>
+      <question>
+        <text>¿Como mide tu empresa el impacto ambiental de los materiales?</text>
+        <maxPoints>4</maxPoints>
+        <options>
+          <option points="4">LCA completo + metricas publicas + mejora continua</option>
+          <option points="3">Medicion de impacto + reportes internos</option>
+          <option points="2">Algunas metricas de impacto</option>
+          <option points="1">Medicion basica</option>
+          <option points="0">Sin medicion de impacto</option>
+        </options>
+      </question>
+    </questions>
+  </pillar>
+  
+  <pillar>
+    <name>Circularity</name>
+    <description>Economia circular y gestion de residuos</description>
+    <maxPoints>20</maxPoints>
+    <weight>0.20</weight>
+    <questions>
+      <question>
+        <text>¿Tu empresa aplica practicas de circularidad (reparacion, reciclaje, reventa)?</text>
+        <maxPoints>4</maxPoints>
+        <options>
+          <option points="4">Modelo de negocio basado en circularidad (alquiler, segunda mano, reciclaje integral)</option>
+          <option points="3">Programas solidos de reciclaje o reparacion en marcha</option>
+          <option points="2">Iniciativas puntuales de circularidad</option>
+          <option points="1">Compromisos sin acciones claras</option>
+          <option points="0">Sin practicas de circularidad</option>
+        </options>
+      </question>
+      <question>
+        <text>¿Que programas de logistica inversa tiene tu empresa?</text>
+        <maxPoints>4</maxPoints>
+        <options>
+          <option points="4">Sistema integral de logistica inversa + reutilizacion + valorizacion</option>
+          <option points="3">Programas de devolucion y reciclaje implementados</option>
+          <option points="2">Algunos canales de devolucion</option>
+          <option points="1">Devoluciones basicas</option>
+          <option points="0">Sin logistica inversa</option>
+        </options>
+      </question>
+      <question>
+        <text>¿Como gestiona tu empresa el fin de vida de los productos?</text>
+        <maxPoints>4</maxPoints>
+        <options>
+          <option points="4">Programa integral de reciclaje + reutilizacion + valorizacion</option>
+          <option points="3">Programas de reciclaje y reutilizacion</option>
+          <option points="2">Algunas opciones de reciclaje</option>
+          <option points="1">Reciclaje basico</option>
+          <option points="0">Sin gestion de fin de vida</option>
+        </options>
+      </question>
+      <question>
+        <text>¿Que estrategias tiene tu empresa para extender la vida util de los productos?</text>
+        <maxPoints>4</maxPoints>
+        <options>
+          <option points="4">Diseño para durabilidad + servicios de reparacion + actualizaciones</option>
+          <option points="3">Servicios de reparacion y mantenimiento</option>
+          <option points="2">Algunos servicios de reparacion</option>
+          <option points="1">Garantias basicas</option>
+          <option points="0">Sin estrategias de extension</option>
+        </options>
+      </question>
+      <question>
+        <text>¿Como colabora tu empresa con otros actores para la circularidad?</text>
+        <maxPoints>4</maxPoints>
+        <options>
+          <option points="4">Redes de colaboracion + alianzas estrategicas + innovacion conjunta</option>
+          <option points="3">Colaboraciones con recicladores y reparadores</option>
+          <option points="2">Algunas colaboraciones puntuales</option>
+          <option points="1">Colaboraciones basicas</option>
+          <option points="0">Sin colaboraciones</option>
         </options>
       </question>
     </questions>

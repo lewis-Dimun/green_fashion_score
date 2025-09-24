@@ -4,15 +4,16 @@ import { requireAuth } from '@/lib/server-auth'
 import { UserRole } from '@prisma/client'
 
 interface Params {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }
 
 export async function GET(_request: Request, { params }: Params) {
+  const { id } = await params
   const { error } = await requireAuth(UserRole.ADMIN)
   if (error) return error
 
   const pillar = await prisma.pillar.findUnique({
-    where: { id: params.id },
+    where: { id },
     include: {
       questions: {
         include: {
@@ -30,6 +31,7 @@ export async function GET(_request: Request, { params }: Params) {
 }
 
 export async function PUT(request: Request, { params }: Params) {
+  const { id } = await params
   const { error } = await requireAuth(UserRole.ADMIN)
   if (error) return error
 
@@ -38,7 +40,7 @@ export async function PUT(request: Request, { params }: Params) {
     const { name, description, maxPoints, weight } = body ?? {}
 
     const pillar = await prisma.pillar.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         ...(name ? { name } : {}),
         description: description ?? null,
@@ -55,11 +57,12 @@ export async function PUT(request: Request, { params }: Params) {
 }
 
 export async function DELETE(_request: Request, { params }: Params) {
+  const { id } = await params
   const { error } = await requireAuth(UserRole.ADMIN)
   if (error) return error
 
   try {
-    await prisma.pillar.delete({ where: { id: params.id } })
+    await prisma.pillar.delete({ where: { id } })
     return NextResponse.json({ success: true })
   } catch (err) {
     console.error('Delete pillar error:', err)
