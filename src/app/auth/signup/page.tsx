@@ -31,13 +31,13 @@ export default function SignUp() {
     setError('')
 
     if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match')
+      setError('Las contrasenas no coinciden')
       setIsLoading(false)
       return
     }
 
     if (formData.password.length < 6) {
-      setError('Password must be at least 6 characters long')
+      setError('La contrasena debe tener al menos 6 caracteres')
       setIsLoading(false)
       return
     }
@@ -56,21 +56,21 @@ export default function SignUp() {
       })
 
       if (response.ok) {
-        router.push('/auth/signin?message=Account created successfully')
+        router.push('/auth/signin?message=Cuenta creada exitosamente')
       } else {
         const data = await response.json()
-        setError(data.error || 'An error occurred')
+        setError(data.error || 'Ocurrio un error')
       }
     } catch (error) {
-      setError('An error occurred')
+      setError('Ocurrio un error')
     } finally {
       setIsLoading(false)
     }
   }
 
   const passwordRequirements = [
-    { text: 'At least 6 characters', met: formData.password.length >= 6 },
-    { text: 'Contains letters and numbers', met: /[A-Za-z]/.test(formData.password) && /[0-9]/.test(formData.password) }
+    { text: 'Al menos 6 caracteres', met: formData.password.length >= 6 },
+    { text: 'Contiene letras y numeros', met: /[A-Za-z]/.test(formData.password) && /[0-9]/.test(formData.password) }
   ]
 
   return (
@@ -91,7 +91,7 @@ export default function SignUp() {
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                Full Name
+                Nombre Completo
               </label>
               <input
                 id="name"
@@ -99,7 +99,7 @@ export default function SignUp() {
                 type="text"
                 required
                 className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors duration-200 bg-white/50"
-                placeholder="Enter your full name"
+                placeholder="Ingresa tu nombre completo"
                 value={formData.name}
                 onChange={handleChange}
               />
@@ -107,7 +107,7 @@ export default function SignUp() {
 
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                Email Address
+                Direccion de Email
               </label>
               <input
                 id="email"
@@ -116,7 +116,7 @@ export default function SignUp() {
                 autoComplete="email"
                 required
                 className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors duration-200 bg-white/50"
-                placeholder="Enter your email"
+                placeholder="Ingresa tu email"
                 value={formData.email}
                 onChange={handleChange}
               />
@@ -124,7 +124,7 @@ export default function SignUp() {
 
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-                Password
+                Contrasena
               </label>
               <div className="relative">
                 <input
@@ -134,7 +134,7 @@ export default function SignUp() {
                   autoComplete="new-password"
                   required
                   className="w-full px-4 py-3 pr-12 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors duration-200 bg-white/50"
-                  placeholder="Enter your password"
+                  placeholder="Ingresa tu contrasena"
                   value={formData.password}
                   onChange={handleChange}
                 />
@@ -162,7 +162,7 @@ export default function SignUp() {
 
             <div>
               <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
-                Confirm Password
+                Confirmar Contrasena
               </label>
               <div className="relative">
                 <input
@@ -172,7 +172,7 @@ export default function SignUp() {
                   autoComplete="new-password"
                   required
                   className="w-full px-4 py-3 pr-12 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors duration-200 bg-white/50"
-                  placeholder="Confirm your password"
+                  placeholder="Confirma tu contrasena"
                   value={formData.confirmPassword}
                   onChange={handleChange}
                 />
@@ -201,7 +201,7 @@ export default function SignUp() {
                 <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
               ) : (
                 <>
-                  <span>Create Account</span>
+                  <span>Crear Cuenta</span>
                   <ArrowRight className="w-4 h-4" />
                 </>
               )}
@@ -210,12 +210,12 @@ export default function SignUp() {
 
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
-              Already have an account?{' '}
+              ¿Ya tienes una cuenta?{' '}
               <Link
                 href="/auth/signin"
                 className="font-semibold text-emerald-600 hover:text-emerald-700 transition-colors duration-200"
               >
-                Sign in here
+                Inicia sesion aqui
               </Link>
             </p>
           </div>
@@ -223,19 +223,19 @@ export default function SignUp() {
 
         {/* Benefits */}
         <div className="mt-8 bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 rounded-xl p-6">
-          <h3 className="text-sm font-semibold text-emerald-900 mb-3">What you&apos;ll get:</h3>
+          <h3 className="text-sm font-semibold text-emerald-900 mb-3">Lo que obtendras:</h3>
           <ul className="text-xs text-emerald-700 space-y-2">
             <li className="flex items-center space-x-2">
               <CheckCircle className="w-3 h-3 text-emerald-500" />
-              <span>Access to comprehensive sustainability assessment</span>
+              <span>Acceso a evaluacion integral de sostenibilidad</span>
             </li>
             <li className="flex items-center space-x-2">
               <CheckCircle className="w-3 h-3 text-emerald-500" />
-              <span>Personalized certification dashboard</span>
+              <span>Panel de certificacion personalizado</span>
             </li>
             <li className="flex items-center space-x-2">
               <CheckCircle className="w-3 h-3 text-emerald-500" />
-              <span>Detailed insights and recommendations</span>
+              <span>Insights detallados y recomendaciones</span>
             </li>
           </ul>
         </div>
