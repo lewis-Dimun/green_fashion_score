@@ -318,7 +318,7 @@ export default function AdminDashboardClient({ user }: AdminDashboardClientProps
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
-            Survey Builder
+            Constructor de Encuesta
           </button>
           <button
             onClick={() => setActiveTab('results')}
@@ -328,15 +328,15 @@ export default function AdminDashboardClient({ user }: AdminDashboardClientProps
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
-            Survey Results
+            Resultados de Encuesta
           </button>
         </div>
 
         {isLoading ? (
           <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-12 text-center">
             <div className="w-16 h-16 border-4 border-emerald-200 border-t-emerald-600 rounded-full animate-spin mx-auto mb-6"></div>
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">Loading Dashboard</h2>
-            <p className="text-gray-600">Preparing admin interface...</p>
+            <h2 className="text-xl font-semibold text-gray-900 mb-2">Cargando Panel</h2>
+            <p className="text-gray-600">Preparando la interfaz de administracion...</p>
           </div>
         ) : (
           <>
@@ -344,9 +344,9 @@ export default function AdminDashboardClient({ user }: AdminDashboardClientProps
               <div className="space-y-8">
                 {/* Create New Pillar */}
                 <section className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4">Create New Pillar</h2>
+                  <h2 className="text-2xl font-bold text-gray-900 mb-4">Crear Nuevo Pilar</h2>
                   <p className="text-gray-600 mb-6">
-                    Dimensions define the questionnaire structure and weighting.
+                    Los pilares definen la estructura y ponderacion del cuestionario.
                   </p>
                   <form
                     className="grid grid-cols-1 gap-4 md:grid-cols-2"
@@ -356,7 +356,7 @@ export default function AdminDashboardClient({ user }: AdminDashboardClientProps
                     }}
                   >
                     <div className="md:col-span-1">
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Name</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Nombre</label>
                       <input
                         name="name"
                         type="text"
@@ -365,7 +365,7 @@ export default function AdminDashboardClient({ user }: AdminDashboardClientProps
                       />
                     </div>
                     <div className="md:col-span-1">
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Weight (0 - 1)</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Peso (0 - 1)</label>
                       <input
                         name="weight"
                         type="number"
@@ -377,7 +377,7 @@ export default function AdminDashboardClient({ user }: AdminDashboardClientProps
                       />
                     </div>
                     <div className="md:col-span-1">
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Max Points</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Puntos Maximos</label>
                       <input
                         name="maxPoints"
                         type="number"
@@ -387,7 +387,7 @@ export default function AdminDashboardClient({ user }: AdminDashboardClientProps
                       />
                     </div>
                     <div className="md:col-span-2">
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Descripcion</label>
                       <textarea
                         name="description"
                         rows={3}
@@ -415,8 +415,8 @@ export default function AdminDashboardClient({ user }: AdminDashboardClientProps
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
                       </div>
-                      <h2 className="text-2xl font-bold text-gray-900 mb-4">No Pillars Yet</h2>
-                      <p className="text-gray-600">Create your first pillar above to get started with the survey builder.</p>
+                      <h2 className="text-2xl font-bold text-gray-900 mb-4">Aun no hay pilares</h2>
+                      <p className="text-gray-600">Crea tu primer pilar arriba para comenzar con el constructor de encuestas.</p>
                     </div>
                   ) : (
                     pillars.map((pillar) => (
@@ -429,7 +429,7 @@ export default function AdminDashboardClient({ user }: AdminDashboardClientProps
                                 <p className="text-emerald-100 mt-2">{pillar.description}</p>
                               )}
                               <p className="text-emerald-200 text-sm mt-2">
-                                Weight: {pillar.weight} • Max Points: {pillar.maxPoints}
+                                Peso: {pillar.weight} • Puntos Maximos: {pillar.maxPoints}
                               </p>
                             </div>
                             <div className="flex gap-3">
@@ -437,13 +437,13 @@ export default function AdminDashboardClient({ user }: AdminDashboardClientProps
                                 onClick={() => void handleEditPillar(pillar)}
                                 className="bg-white/20 text-white px-4 py-2 rounded-lg hover:bg-white/30 transition-colors duration-200"
                               >
-                                Edit
+                                Editar
                               </button>
                               <button
                                 onClick={() => void handleDeletePillar(pillar.id)}
                                 className="bg-red-500/20 text-white px-4 py-2 rounded-lg hover:bg-red-500/30 transition-colors duration-200"
                               >
-                                Delete
+                                Eliminar
                               </button>
                             </div>
                           </div>
@@ -458,7 +458,7 @@ export default function AdminDashboardClient({ user }: AdminDashboardClientProps
                               void handleCreateQuestion(event.currentTarget, pillar.id)
                             }}
                           >
-                            <h4 className="text-lg font-semibold text-gray-900 mb-4">Add Question</h4>
+                            <h4 className="text-lg font-semibold text-gray-900 mb-4">Agregar Pregunta</h4>
                             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                               <input
                                 name="text"
@@ -479,14 +479,14 @@ export default function AdminDashboardClient({ user }: AdminDashboardClientProps
                                 type="submit"
                                 className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-emerald-600 hover:to-teal-700 transition-all duration-200"
                               >
-                                Add Question
+                                Agregar Pregunta
                               </button>
                             </div>
                           </form>
 
                           {/* Questions */}
                           {pillar.questions.length === 0 ? (
-                            <p className="text-gray-500 text-center py-8">No questions yet.</p>
+                            <p className="text-gray-500 text-center py-8">Aun no hay preguntas.</p>
                           ) : (
                             pillar.questions.map((question) => (
                               <div key={question.id} className="bg-gray-50 rounded-xl p-6">
@@ -496,24 +496,24 @@ export default function AdminDashboardClient({ user }: AdminDashboardClientProps
                                       {question.text}
                                       {question.isHidden && (
                                         <span className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">
-                                          Hidden
+                                          Oculta
                                         </span>
                                       )}
                                     </h4>
-                                    <p className="text-gray-600 mt-1">Max Points: {question.maxPoints}</p>
+                                    <p className="text-gray-600 mt-1">Puntos Maximos: {question.maxPoints}</p>
                                   </div>
                                   <div className="flex gap-2">
                                     <button
                                       onClick={() => void handleEditQuestion(question)}
                                       className="bg-emerald-100 text-emerald-700 px-4 py-2 rounded-lg hover:bg-emerald-200 transition-colors duration-200"
                                     >
-                                      Edit
+                                      Editar
                                     </button>
                                     <button
                                       onClick={() => void handleDeleteQuestion(question.id)}
                                       className="bg-red-100 text-red-700 px-4 py-2 rounded-lg hover:bg-red-200 transition-colors duration-200"
                                     >
-                                      Delete
+                                      Eliminar
                                     </button>
                                   </div>
                                 </div>
@@ -526,19 +526,19 @@ export default function AdminDashboardClient({ user }: AdminDashboardClientProps
                                     void handleCreateOption(event.currentTarget, question.id)
                                   }}
                                 >
-                                  <h5 className="text-sm font-semibold text-gray-800 mb-3">Add Option</h5>
+                                  <h5 className="text-sm font-semibold text-gray-800 mb-3">Agregar Opcion</h5>
                                   <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
                                     <input
                                       name="label"
                                       type="text"
-                                      placeholder="Option label"
+                                      placeholder="Etiqueta de opcion"
                                       className="px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors duration-200"
                                       required
                                     />
                                     <input
                                       name="points"
                                       type="number"
-                                      placeholder="Points"
+                                      placeholder="Puntos"
                                       className="px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors duration-200"
                                       required
                                     />
@@ -546,14 +546,14 @@ export default function AdminDashboardClient({ user }: AdminDashboardClientProps
                                       type="submit"
                                       className="bg-emerald-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-emerald-700 transition-colors duration-200"
                                     >
-                                      Add Option
+                                      Agregar Opcion
                                     </button>
                                   </div>
                                 </form>
 
                                 {/* Options */}
                                 {question.options.length === 0 ? (
-                                  <p className="text-gray-500 text-center py-4">No options defined.</p>
+                                  <p className="text-gray-500 text-center py-4">Aun no hay opciones.</p>
                                 ) : (
                                   <div className="mt-4 space-y-2">
                                     {question.options.map((option) => (
@@ -563,20 +563,20 @@ export default function AdminDashboardClient({ user }: AdminDashboardClientProps
                                       >
                                         <div>
                                           <p className="font-medium text-gray-800">{option.label}</p>
-                                          <p className="text-sm text-gray-500">Points: {option.points}</p>
+                                          <p className="text-sm text-gray-500">Puntos: {option.points}</p>
                                         </div>
                                         <div className="flex gap-2">
                                           <button
                                             onClick={() => void handleEditOption(option)}
                                             className="bg-gray-100 text-gray-700 px-3 py-1 rounded-lg text-sm hover:bg-gray-200 transition-colors duration-200"
                                           >
-                                            Edit
+                                            Editar
                                           </button>
                                           <button
                                             onClick={() => void handleDeleteOption(option.id)}
                                             className="bg-red-100 text-red-700 px-3 py-1 rounded-lg text-sm hover:bg-red-200 transition-colors duration-200"
                                           >
-                                            Delete
+                                            Eliminar
                                           </button>
                                         </div>
                                       </div>
@@ -596,9 +596,9 @@ export default function AdminDashboardClient({ user }: AdminDashboardClientProps
 
             {activeTab === 'results' && (
               <section className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Latest User Submissions</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">Ultimos Envios de Usuarios</h2>
                 <p className="text-gray-600 mb-6">
-                  Overview of completed surveys. Totals reflect weighted scores across all pillars.
+                  Resumen de encuestas completadas. Los totales reflejan puntajes ponderados en todos los pilares.
                 </p>
                 {results.length === 0 ? (
                   <div className="text-center py-12">
@@ -607,19 +607,19 @@ export default function AdminDashboardClient({ user }: AdminDashboardClientProps
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                       </svg>
                     </div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">No Submissions Yet</h3>
-                    <p className="text-gray-600">Survey submissions will appear here once users complete the assessment.</p>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Aun no hay envios</h3>
+                    <p className="text-gray-600">Los envios de encuestas apareceran aqui cuando los usuarios completen la evaluacion.</p>
                   </div>
                 ) : (
                   <div className="overflow-x-auto">
                     <table className="min-w-full divide-y divide-gray-200">
                       <thead className="bg-gray-50">
                         <tr>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Usuario</th>
                           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
                           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Score</th>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Completed</th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Puntuacion</th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Completado</th>
                         </tr>
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-200">

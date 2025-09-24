@@ -29,10 +29,10 @@ export default function SignIn() {
       if (result?.ok) {
         router.push('/dashboard')
       } else {
-        setError('Invalid credentials. Please check your email and password.')
+        setError('Credenciales invalidas. Verifica tu email y contrasena.')
       }
     } catch (error) {
-      setError('An error occurred. Please try again.')
+      setError('Ocurrio un error. Intentalo de nuevo.')
     } finally {
       setIsLoading(false)
     }
@@ -56,7 +56,7 @@ export default function SignIn() {
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                Email address
+                Direccion de Email
               </label>
               <input
                 id="email"
@@ -65,7 +65,7 @@ export default function SignIn() {
                 autoComplete="email"
                 required
                 className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors duration-200 bg-white/50"
-                placeholder="Enter your email"
+                placeholder="Ingresa tu email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -73,7 +73,7 @@ export default function SignIn() {
 
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-                Password
+                Contrasena
               </label>
               <div className="relative">
                 <input
@@ -83,7 +83,7 @@ export default function SignIn() {
                   autoComplete="current-password"
                   required
                   className="w-full px-4 py-3 pr-12 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors duration-200 bg-white/50"
-                  placeholder="Enter your password"
+                  placeholder="Ingresa tu contrasena"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
@@ -112,7 +112,7 @@ export default function SignIn() {
                 <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
               ) : (
                 <>
-                  <span>Sign in</span>
+                  <span>Iniciar Sesion</span>
                   <ArrowRight className="w-4 h-4" />
                 </>
               )}
@@ -121,12 +121,12 @@ export default function SignIn() {
 
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
-              Don&apos;t have an account?{' '}
+              ¿No tienes una cuenta?{' '}
               <Link
                 href="/auth/signup"
                 className="font-semibold text-emerald-600 hover:text-emerald-700 transition-colors duration-200"
               >
-                Create one here
+                Crea una aqui
               </Link>
             </p>
           </div>
@@ -134,7 +134,7 @@ export default function SignIn() {
 
         {/* Demo Credentials */}
         <div className="mt-8 bg-blue-50 border border-blue-200 rounded-xl p-4">
-          <h3 className="text-sm font-semibold text-blue-900 mb-2">Demo Credentials</h3>
+          <h3 className="text-sm font-semibold text-blue-900 mb-2">Credenciales de Demostracion</h3>
           <div className="text-xs text-blue-700 space-y-1">
             <p><strong>Admin:</strong> admin@example.com / Admin123!</p>
             <p><strong>User:</strong> user@example.com / User123!</p>
