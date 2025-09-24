@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import PilotCompanies from '@/components/PilotCompanies'
 
 const trustLogos = [
   { name: 'B Corp', logo: 'B' },
@@ -407,6 +408,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Empresas Piloto */}
+      <PilotCompanies />
 
       {/* Testimonios */}
       <section className="mx-auto w-full max-w-7xl px-6 py-20">
