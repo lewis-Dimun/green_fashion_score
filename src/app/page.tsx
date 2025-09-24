@@ -133,7 +133,7 @@ export default function Home() {
               Empieza tu evaluacion
             </Link>
             <Link
-              href="#metodologia"
+              href="#como-funciona"
               className="rounded-xl border-2 border-emerald-600 bg-white/80 px-8 py-4 text-lg font-semibold text-emerald-600 transition-all duration-200 hover:bg-emerald-50"
             >
               Descubre la metodologia
@@ -186,7 +186,7 @@ export default function Home() {
       {/* Trust Logos removed per request */}
 
       {/* Como Funciona */}
-      <section className="mx-auto w-full max-w-7xl px-6 py-20">
+      <section id="como-funciona" className="mx-auto w-full max-w-7xl px-6 py-20">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-gray-900 mb-6">
             Como funciona
@@ -389,9 +389,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Empresas Piloto */}
-      <PilotCompanies />
-
       {/* Testimonios */}
       <section className="mx-auto w-full max-w-7xl px-6 py-20">
         <div className="text-center mb-16">
@@ -418,22 +415,7 @@ export default function Home() {
           ))}
         </div>
         
-        {/* Pilot Companies */}
-        <div className="mt-16 text-center">
-          <h3 className="text-2xl font-bold text-gray-900 mb-8">
-            Empresas Piloto
-          </h3>
-          <div className="flex flex-wrap justify-center items-center gap-8 opacity-60">
-            {pilotCompanies.map((company) => (
-              <div key={company} className="text-lg font-semibold text-gray-400">
-                {company}
-              </div>
-            ))}
-          </div>
-          <p className="mt-8 text-gray-600">
-            Metodologia desarrollada por <span className="font-semibold text-emerald-600">ECODICTA</span>.
-          </p>
-        </div>
+        {/* Pilot Companies removed per request */}
       </section>
 
       {/* Call to Action Final */}
